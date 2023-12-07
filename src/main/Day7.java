@@ -19,32 +19,33 @@ public class Day7 {
         }
         Collections.sort(hands);
         int sum = 0;
-        for(int i=0;i<hands.size();i++) {
-            sum = sum + hands.get(i).bid * (i+1);
+        for (int i = 0; i < hands.size(); i++) {
+            sum = sum + hands.get(i).bid * (i + 1);
         }
         System.out.println(sum);
     }
 
-    private static class Hand implements Comparable{
+    private static class Hand implements Comparable {
         public String cards;
         public int bid;
         public HandType handType;
 
-        private static Map<Character,Integer> charRank = new HashMap<>();
+        private static Map<Character, Integer> charRank = new HashMap<>();
+
         static {
-            charRank.put('A',13);
-            charRank.put('K',12);
-            charRank.put('Q',11);
-            charRank.put('J',0);
-            charRank.put('T',9);
-            charRank.put('9',8);
-            charRank.put('8',7);
-            charRank.put('7',6);
-            charRank.put('6',5);
-            charRank.put('5',4);
-            charRank.put('4',3);
-            charRank.put('3',2);
-            charRank.put('2',1);
+            charRank.put('A', 13);
+            charRank.put('K', 12);
+            charRank.put('Q', 11);
+            charRank.put('J', 0);
+            charRank.put('T', 9);
+            charRank.put('9', 8);
+            charRank.put('8', 7);
+            charRank.put('7', 6);
+            charRank.put('6', 5);
+            charRank.put('5', 4);
+            charRank.put('4', 3);
+            charRank.put('3', 2);
+            charRank.put('2', 1);
         }
 
         public Hand(String cards, int bid) {
@@ -56,17 +57,17 @@ public class Day7 {
         private void calculateType() {
             Map<Character, Integer> charCount = new HashMap<>();
             char highestCountCard = 0;
-            int mostNumberCards =0;
+            int mostNumberCards = 0;
             for (int i = 0; i < cards.length(); i++) {
                 charCount.putIfAbsent(cards.charAt(i), 0);
                 int numOfCards = charCount.get(cards.charAt(i)) + 1;
-                charCount.put(cards.charAt(i),numOfCards);
+                charCount.put(cards.charAt(i), numOfCards);
                 if (numOfCards > mostNumberCards && cards.charAt(i) != 'J') {
                     mostNumberCards = numOfCards;
                     highestCountCard = cards.charAt(i);
                 }
             }
-            if (charCount.containsKey('J') && highestCountCard >0) {
+            if (charCount.containsKey('J') && highestCountCard > 0) {
                 // swap joker with other highest card
                 int jokerCount = charCount.get('J');
                 charCount.remove('J');
@@ -101,16 +102,13 @@ public class Day7 {
 
         @Override
         public int compareTo(Object o) {
-            Hand other = (Hand)o;
+            Hand other = (Hand) o;
             if (!handType.equals(other.handType)) {
                 return handType.rank.compareTo(other.handType.rank);
             }
-            for (int i=0;i<cards.length();i++) {
-                if (cards.charAt(i)==other.cards.charAt(i))
-                    continue;
-                else
+            for (int i = 0; i < cards.length(); i++) {
+                if (cards.charAt(i) != other.cards.charAt(i))
                     return charRank.get(cards.charAt(i)).compareTo(charRank.get(other.cards.charAt(i)));
-
             }
             return 0; // equal
         }

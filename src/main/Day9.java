@@ -30,9 +30,7 @@ public class Day9 {
             }
 
             for (int i = 0; i < subLists.size(); i++) {
-
                 part1total = part1total + subLists.get(i).get(subLists.get(i).size() - 1);
-
             }
             for (int i = subLists.size() - 2; i >= 0; i--) {
                 int toAdd = subLists.get(i).get(0) - subLists.get(i + 1).get(0);
@@ -40,7 +38,6 @@ public class Day9 {
                 if (i == 0) {
                     part2total = part2total + toAdd;
                 }
-
             }
             counter++;
             subLists.clear();
@@ -57,17 +54,5 @@ public class Day9 {
         }
         return newList;
     }
-
-
-    public static int getFromSequence(int[] sequence, int index, int level) {
-        if (level == 0) {
-            return sequence[index];
-        } else {
-            int priorUpper = getFromSequence(sequence, index + 1, level - 1);
-            int priorLower = getFromSequence(sequence, index, level - 1);
-            return priorUpper - priorLower;
-        }
-    }
-
 
 }

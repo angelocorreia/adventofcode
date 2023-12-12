@@ -15,7 +15,7 @@ public class Day10 {
     public static void main(String[] args) throws Exception {
 
         List<String> rawInput = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File("./src/main/resources/day10.txt")));
+        BufferedReader reader = new BufferedReader(new FileReader(new File("./src/main/resources/day10demo.txt")));
         String s = reader.readLine();
 
         while (s != null) {
@@ -161,7 +161,16 @@ public class Day10 {
             }
         }
         System.out.println("midpoint " + distance);
+        fillOutside(0, 0);
 
+        fillInside(x ,y);
+        System.out.println("area " + countArea());
+        for (int i = 0; i < distances.length; i++) {
+            for (int j = 0; j < distances[i].length; j++) {
+                System.out.print(distances[i][j]);
+            }
+            System.out.print("\n");
+        }
     }
 
 
@@ -274,4 +283,55 @@ public class Day10 {
         }
     }
 
+    public static void fillOutside(int x, int y) {
+        if (distances[x][y] == 0) {
+            distances[x][y] = 1;
+        }
+        for (int a = x-1;a<=x+1;a++) {
+            for (int b = y-1;b<=y+1;b++) {
+                if (a>=0 && a<distances.length && b>=0 && b<distances[0].length) {
+                    if (distances[a][b] == 0 && a !=x && b!= y) {
+                        distances[a][b] = 1;
+                        fillOutside(a, b);
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    public static void fillInside(int x, int y) {
+        if (distances[x][y] == 0) {
+            distances[x][y] = 2;
+        }
+        for (int a = x-1;a<=x+1;a++) {
+            for (int b = y-1;b<=y+1;b++) {
+                if (a>=0 && a<distances.length && b>=0 && b<distances[0].length) {
+                    if (distances[a][b] == 0 && a !=x && b!= y) {
+                        distances[a][b] = 2;
+                        fillInside(a, b);
+
+                    }
+                }
+            }
+
+        }
+
+    }
+    public static int countArea() {
+        int count = 0;
+
+        for (int i = 0; i < distances.length; i++) {
+            for (int j = 0; j < distances[i].length; j++) {
+                if (distances[i][j] == 2) {
+                    count = count + 1;
+                } else {
+                    distances[i][j] = 1;
+                }
+            }
+        }
+        return count;
+    }
 }
